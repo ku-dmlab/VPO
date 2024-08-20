@@ -1,0 +1,12 @@
+name: rdpo
+
+beta: 0.1
+c: 1
+
+epsilon: 0.1
+
+trainer: RDPOTrainer
+
+dataloader: PairedPreferenceDataLoader
+
+use_reference_model: true

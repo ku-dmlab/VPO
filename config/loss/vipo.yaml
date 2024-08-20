@@ -1,0 +1,11 @@
+name: vipo
+
+beta: 0.1
+c: 1
+exp: false
+
+trainer: VIPOTrainer
+
+dataloader: PairedPreferenceDataLoader
+
+use_reference_model: true

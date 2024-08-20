@@ -1,0 +1,5 @@
+defaults:
+  - base_model
+
+name_or_path: ContextualAI/archangel_sft_pythia2-8b
+block_name: GPTNeoXLayer

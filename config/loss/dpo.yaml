@@ -1,0 +1,14 @@
+# Direct Preference Optimization
+name: dpo
+
+# the temperature parameter for DPO; lower values mean we care less about the reference model
+beta: 0.1
+c: 1
+label_smoothing: 0
+
+exp: false
+trainer: DPOTrainer
+
+dataloader: PairedPreferenceDataLoader
+
+use_reference_model: true

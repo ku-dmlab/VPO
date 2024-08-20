@@ -1,0 +1,11 @@
+name: vdpo
+
+beta: 0.1
+c: 1
+exp: false
+
+trainer: VDPOTrainer
+
+dataloader: PairedPreferenceDataLoader
+
+use_reference_model: true

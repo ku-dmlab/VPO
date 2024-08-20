@@ -1,0 +1,10 @@
+name: ipo
+
+beta: 0.1
+c: 1
+exp: false
+trainer: IPOTrainer
+
+dataloader: PairedPreferenceDataLoader
+
+use_reference_model: true
