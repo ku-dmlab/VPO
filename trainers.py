@@ -677,21 +677,21 @@ class PairedPreferenceTrainer(BasicTrainer):
                     chosen = torch.pow(2,chosen)
                     reject = torch.pow(2,reject)
                 beta_dist = Beta(self.config.loss.c + chosen, self.config.loss.c + reject)
-                beta_binom_p = beta_dist.mean # this is equal to bayesian MMSE estimator
+                mmse = beta_dist.mean # this is equal to bayesian MMSE estimator
 
-                losses, chosen_rewards, rejected_rewards = self.loss(policy_chosen_logps, policy_rejected_logps, reference_chosen_logps, reference_rejected_logps, beta_binom_p.clone())
+                losses, chosen_rewards, rejected_rewards = self.loss(policy_chosen_logps, policy_rejected_logps, reference_chosen_logps, reference_rejected_logps, mmse.clone())
 
                 # log
                 pred_prefer_p = F.sigmoid(chosen_rewards - rejected_rewards)
-                beta_binom_p = beta_binom_p.to(pred_prefer_p)
+                mmse = mmse.to(pred_prefer_p)
 
-                beta_binom_p = all_gather_if_needed(beta_binom_p, self.rank, self.world_size)
+                mmse = all_gather_if_needed(mmse, self.rank, self.world_size)
                 pred_prefer_p = all_gather_if_needed(pred_prefer_p, self.rank, self.world_size)
 
-                metrics[f'vpo_{mode}/data_beta_binomial_prob'] = beta_binom_p.float().cpu().numpy().tolist()
+                metrics[f'vpo_{mode}/data_beta_binomial_prob'] = mmse.float().cpu().numpy().tolist()
                 metrics[f'vpo_{mode}/pred_prference_prob'] = pred_prefer_p.float().cpu().numpy().tolist()
 
-                del beta_binom_p, pred_prefer_p
+                del mmse, pred_prefer_p
             ##########
             else:
                 losses, chosen_rewards, rejected_rewards = self.loss(policy_chosen_logps, policy_rejected_logps, reference_chosen_logps, reference_rejected_logps)
